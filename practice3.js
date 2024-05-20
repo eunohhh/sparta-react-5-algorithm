@@ -14,9 +14,26 @@
 // 입력: "hello", "bello"
 // 출력: false
 
-
 function isAnagram(a, b) {
-    // 함수를 작성해주세요.
+    // 맵 자료형을 이용해 판별
+    // 객체사용시 .keys 기타등등 이런거 써야해서 불편
+    const hash = new Map();
+
+    for (let x of a) {
+        // a 의 각 요소로부터 각 알파벳 값이 이미 Map 에 있으면, 해당 프로퍼티의 값을 +1
+        // 없으면 1로
+        if (hash.has(x)) hash.set(x, hash.get(x) + 1);
+        else hash.set(x, 1);
+    }
+    for (let x of b) {
+        // b 의 각 요소로부터 Map에 해당하는 값이 없거나 0이면 애너그램이 아니므로 false 리턴
+        // Map에 b의 각 요소 값이 있으면(a와 b에 겹치는 알파벳이 있으면) 알파벳 키 값 -1
+        if (!hash.has(x) || hash.get(x) === 0) return false;
+        hash.set(x, hash.get(x) - 1);
+    }
+
+    // 모두 통과하면(위에 return false)에 안걸렸으면 true 리턴
+    return true;
 }
 
 // 테스트 코드
@@ -28,10 +45,11 @@ function testIsAnagram() {
         { input: ["rat", "car"], expected: false },
     ];
 
-    testCases.forEach(({input, expected}, index) => {
+    testCases.forEach(({ input, expected }, index) => {
         try {
             const result = isAnagram(input[0], input[1]);
-            if (result !== expected) throw new Error(`Expected ${expected}, but got ${result}`);
+            if (result !== expected)
+                throw new Error(`Expected ${expected}, but got ${result}`);
             console.log(`Test ${index + 1}: Passed`);
         } catch (error) {
             console.log(`Test ${index + 1}: Failed - ${error.message}`);
