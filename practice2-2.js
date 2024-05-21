@@ -11,25 +11,38 @@
 // 입력: "apple", "pineapple"
 // 출력: new Set(['p', 'l', 'e'])
 
-
 function commonCharacters(s1, s2) {
-    // 작성할 코드
+    // s1을 배열화해서 s2.includes 를 사용하여 교집합 구하는 filter 돌립니다
+    // Set 으로 반환합니다
+    const intersection = [...s1].filter((char) => s2.includes(char));
+    return new Set(intersection);
 }
 
 // 테스트 코드
 function testCommonCharacters() {
     const testCases = [
-        { input: ["apple", "pineapple"], expected: new Set(['a', 'p', 'l', 'e']) },
-        { input: ["hello", "world"], expected: new Set(['o', 'l']) },
+        {
+            input: ["apple", "pineapple"],
+            expected: new Set(["a", "p", "l", "e"]),
+        },
+        { input: ["hello", "world"], expected: new Set(["o", "l"]) },
         { input: ["abc", "def"], expected: new Set() },
-        { input: ["abcdef", "fedcba"], expected: new Set(['a', 'b', 'c', 'd', 'e', 'f']) },
+        {
+            input: ["abcdef", "fedcba"],
+            expected: new Set(["a", "b", "c", "d", "e", "f"]),
+        },
     ];
 
-    testCases.forEach(({input, expected}, index) => {
+    testCases.forEach(({ input, expected }, index) => {
         try {
             const result = new Set(commonCharacters(input[0], input[1]));
-            const isEqual = expected.size === result.size && [...expected].every(value => result.has(value));
-            if (!isEqual) throw new Error(`Expected ${[...expected]}, but got ${[...result]}`);
+            const isEqual =
+                expected.size === result.size &&
+                [...expected].every((value) => result.has(value));
+            if (!isEqual)
+                throw new Error(
+                    `Expected ${[...expected]}, but got ${[...result]}`
+                );
             console.log(`Test ${index + 1}: Passed`);
         } catch (error) {
             console.log(`Test ${index + 1}: Failed - ${error.message}`);

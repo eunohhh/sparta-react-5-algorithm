@@ -11,24 +11,40 @@
 // 입력: "banana"
 // 출력: 'a' (혹은 'n')
 
-
 function mostFrequentChar(s) {
-    // 이곳에 함수 작성을 해주세요.
+    // practice1에서 했던 방법대로 {글자 : 수, ...} 객체를 반복문을 통해 얻는다
+    const charCount = {};
+    for (let i = 0; i < s.length; i++) {
+        const char = s[i];
+        if (!charCount[char]) {
+            charCount[char] = 1;
+        } else {
+            charCount[char] += 1;
+        }
+    }
+
+    // 얻은 객체를 배열화하여 값만 sort 내림차순
+    const sorted = Object.entries(charCount).sort(([, a], [, b]) => b - a);
+    // 내림차순 했으므로 0번 인덱스가 정답일 것 같습니다.
+    return sorted[0][0];
 }
 
 // 테스트 코드
 function testMostFrequentChar() {
     const testCases = [
-        { input: "banana", expected: ['a', 'n'] },
-        { input: "apple", expected: ['p'] },
-        { input: "mississippi", expected: ['i', 's'] },
-        { input: "aabbcc", expected: ['a', 'b', 'c'] },
+        { input: "banana", expected: ["a", "n"] },
+        { input: "apple", expected: ["p"] },
+        { input: "mississippi", expected: ["i", "s"] },
+        { input: "aabbcc", expected: ["a", "b", "c"] },
     ];
 
-    testCases.forEach(({input, expected}, index) => {
+    testCases.forEach(({ input, expected }, index) => {
         try {
             const result = mostFrequentChar(input);
-            if (!expected.includes(result)) throw new Error(`Expected one of ${expected}, but got ${result}`);
+            if (!expected.includes(result))
+                throw new Error(
+                    `Expected one of ${expected}, but got ${result}`
+                );
             console.log(`Test ${index + 1}: Passed`);
         } catch (error) {
             console.log(`Test ${index + 1}: Failed - ${error.message}`);
