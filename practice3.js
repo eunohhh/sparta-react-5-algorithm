@@ -15,24 +15,33 @@
 // 출력: false
 
 function isAnagram(a, b) {
-    // 맵 자료형을 이용해 판별
-    // 객체사용시 .keys 기타등등 이런거 써야해서 불편
+    // 공백 제거 및 대소문자 무시하기 위해 소문자화
+    const modi = (str) => str.toLowerCase().replaceAll(" ", "");
+    a = modi(a);
+    b = modi(b);
+
+    // 길이가 다르면 애너그램 아니므로 그냥 false 리턴
+    if (a.length !== b.length) return false;
+
+    // 하나의 맵 자료형에 a, b 를 모두 순회하면서 set get has 로 판별
     const hash = new Map();
 
+    // a 를 먼저 순회
     for (let x of a) {
         // a 의 각 요소로부터 각 알파벳 값이 이미 Map 에 있으면, 해당 프로퍼티의 값을 +1
-        // 없으면 1로
         if (hash.has(x)) hash.set(x, hash.get(x) + 1);
+        // 없었다면 해당 프로퍼티 1로
         else hash.set(x, 1);
     }
+    // a 순회가 완료되고 b 순회
     for (let x of b) {
-        // b 의 각 요소로부터 Map에 해당하는 값이 없거나 0이면 애너그램이 아니므로 false 리턴
-        // Map에 b의 각 요소 값이 있으면(a와 b에 겹치는 알파벳이 있으면) 알파벳 키 값 -1
+        // b 의 각 요소로부터 각 알파벳 값이 Map 에 없으면 false 리턴
         if (!hash.has(x) || hash.get(x) === 0) return false;
-        hash.set(x, hash.get(x) - 1);
+        // Map에 b의 각 요소 값이 있으면(a와 b에 겹치는 알파벳이 있으면) 해당 프로퍼티 값 -1
+        else hash.set(x, hash.get(x) - 1);
     }
 
-    // 모두 통과하면(위에 return false)에 안걸렸으면 true 리턴
+    // 모든 값이 0 이면 애너그램
     return true;
 }
 
@@ -43,6 +52,16 @@ function testIsAnagram() {
         { input: ["hello", "bello"], expected: false },
         { input: ["anagram", "nagaram"], expected: true },
         { input: ["rat", "car"], expected: false },
+        { input: ["Dormitory", "Dirty room"], expected: true }, // 공백과 대소문자 무시
+        { input: ["The eyes", "They see"], expected: true }, // 공백과 대소문자 무시
+        { input: ["a gentleman", "elegant man"], expected: true }, // 공백과 대소문자 무시
+        { input: ["School master", "The classroom"], expected: true }, // 공백과 대소문자 무시
+        { input: ["Conversation", "Voices rant on"], expected: true }, // 공백과 대소문자 무시
+        { input: ["Astronomer", "Moon starer"], expected: true }, // 공백과 대소문자 무시
+        { input: ["funeral", "real fun"], expected: true }, // 공백과 대소문자 무시
+        { input: ["adultery", "true lady"], expected: true }, // 공백과 대소문자 무시
+        { input: ["Eleven plus two", "Twelve plus one"], expected: true }, // 공백과 대소문자 무시
+        { input: ["apple", "pale"], expected: false }, // 길이가 다른 경우
     ];
 
     testCases.forEach(({ input, expected }, index) => {
