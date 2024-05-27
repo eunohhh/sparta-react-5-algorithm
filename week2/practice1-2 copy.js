@@ -16,22 +16,64 @@
 // 출력: ""
 
 function longestRepeatingSubstring(s) {
+    // 문제 풀이
+    // const set = new Set(s);
+    // const join = [...set].join("");
+
+    // if (set === join) return "";
+
+    // for (const char of s) {
+    //     if (temp[char]) {
+    //         temp[char]++;
+    //     } else {
+    //         temp[char] = 1;
+    //     }
+    // }
     let temp = {};
     let temp2 = [];
     for (let i = 0; i < s.length; i++) {
         const char = s[i];
         if (temp[char]) {
             temp[char]++;
-            if (temp2.indexOf(char) == -1) {
-                temp2.push(char);
-            } else {
-                temp2 = temp2.slice(temp2.indexOf(char) + 1);
-                temp2.push(char);
-            }
+            temp2.push(char);
         } else {
             temp[char] = 1;
         }
     }
+
+    // for(const char in temp){
+    //     if(char > 1){
+
+    //     }
+    // }
+
+    // let temp2 = "";
+    // let temp3 = [];
+    // let answer = "";
+    // [...s].forEach((e, i, a) => {
+    //     // temp2 = temp2 + e;
+    //     // const next = a[i + 1];
+    //     const index = a.indexOf(e);
+    //     if (index !== -1) {
+    //         temp3.push(index);
+
+    //         // if (temp2[temp2.length - 1] !== next) {
+    //         //     answer = answer + next;
+    //         // }
+    //     }
+    // });
+
+    // const filtered = temp3.filter((e) => e !== 0);
+    // const min = Math.min(...filtered);
+    // const max = Math.max(...filtered);
+
+    // const sliced = [...s].slice(min, max + min + 1);
+
+    console.log(temp, temp2);
+
+    return answer;
+
+    return answer;
 }
 
 // 테스트 코드
