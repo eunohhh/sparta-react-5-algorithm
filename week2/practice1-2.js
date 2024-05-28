@@ -16,82 +16,27 @@
 // 출력: ""
 
 function longestRepeatingSubstring(s) {
-    let temp = {};
-    let temp2 = [];
+    // 한글자면 그냥 리턴
+    if (s.length < 2) return "";
+    // 반복되는 부분 문자열 담을 변수 만들기
+    let repeatingStr = "";
 
-    for (let i = 0; i < s.length; i++) {
-        const char = s[i];
-        if (temp[char]) {
-            temp[char]++;
-        } else {
-            temp[char] = 1;
-        }
-    }
-
-    for (let i = 0; i < s.length; i++) {
-        const char = s[i];
-        if (temp[char] > 1) {
-            if (temp2.indexOf(char) === -1) {
-                temp2.push(char);
-                temp[char]--;
+    // 이중 for 문 돌고 나서 최종적으로 남은 repeatingStr 이 answer
+    for (let i = 1; i < s.length; i++) {
+        const temp = {};
+        // i 만큼 줄이면서, <= 으로
+        for (let j = 0; j <= s.length - i; j++) {
+            // 반복일 경우
+            if (temp[s.substr(j, i)]) {
+                repeatingStr = s.substr(j, i);
+                // 반복 아닐 경우
             } else {
-                // 있을 경우에
-                const idx = [...s].indexOf(char);
-                temp2.splice(idx, 1);
-                temp2.push(char);
-                temp[char]--;
+                temp[s.substr(j, i)] = 1;
             }
+            // console.log(temp);
         }
     }
-
-    console.log(temp, temp2);
-
-    // let result = "";
-    // for (let i = 0; i < s.length - 1; i++) {
-    //     for (let j = i + 1; j < s.length; j++) {
-    //         if (s[i] !== s[j]) {
-    //             continue;
-    //         } else {
-    //             let repeating = "";
-    //             let k = 0;
-    //             while (s[i + k] === s[j + k]) {
-    //                 repeating += s[i + k];
-    //                 k++;
-    //             }
-    //             if (repeating.length > result.length) {
-    //                 result = repeating;
-    //             }
-    //         }
-    //     }
-    // }
-    // return result;
-
-    // 문자열의 마지막 문자를 제외하고 반복
-    // i번째 문자 뒤의 문자열을 한 문자씩 비교 반복
-    //
-    // i,j번째 문자가 같을 경우, 또 반복문을 통해 i,j의 뒤에 있는 문자들을 다른 문자가 나올 때까지 비교하여, 겹치는 문자를 새로운 변수에 넣어준다.
-    // 해당 문자가 result의 길이보다 길 경우, result는 해당 문자가 된다.
-    // 반복문을 다 돌았다면 result는 가장 긴 반복되는 부분 문자열이기 때문에 result를 return 해준다.
-
-    let result = "";
-
-    for (let i = 0; i < s.length - 1; i++) {
-        for (let j = i + 1; j < s.length; j++) {
-            let k = 0;
-            while (
-                i + k < s.length &&
-                j + k < s.length &&
-                s[i + k] === s[j + k]
-            ) {
-                k++;
-            }
-            if (k > result.length) {
-                result = s.slice(i, i + k);
-            }
-        }
-    }
-
-    return result;
+    return repeatingStr ? repeatingStr : "";
 }
 
 // 테스트 코드

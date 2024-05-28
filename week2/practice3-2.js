@@ -12,9 +12,22 @@
 // 입력: "hello"
 // 출력: false
 
-
 function isPalindrome(s) {
     // 문제 풀이
+    // 주어진 문자열을 공백제거, 따옴표콤마제거, 소문자화
+    const processed = s.replace(/['?, ]/g, "").toLowerCase();
+    let answer = false;
+    // 반복을 통해 순회
+    for (let i = 0; i < processed.length; i++) {
+        // 만일 현재 값과 반대(맞은편)값이 일치하면 answer true
+        if (processed[processed.length - 1 - i] === processed[i]) {
+            answer = true;
+            // 하나라도 일치하지 않으면 바로 false 리턴
+        } else {
+            return false;
+        }
+    }
+    return answer;
 }
 
 // 테스트 코드
@@ -25,13 +38,14 @@ function testIsPalindrome() {
         { input: "racecar", expected: true },
         { input: "No 'x' in Nixon", expected: true },
         { input: "Was it a car or a cat I saw?", expected: true },
-        { input: "Not a palindrome", expected: false }
+        { input: "Not a palindrome", expected: false },
     ];
 
-    testCases.forEach(({input, expected}, index) => {
+    testCases.forEach(({ input, expected }, index) => {
         try {
             const result = isPalindrome(input);
-            if (result !== expected) throw new Error(`Expected ${expected}, but got ${result}`);
+            if (result !== expected)
+                throw new Error(`Expected ${expected}, but got ${result}`);
             console.log(`Test ${index + 1}: Passed`);
         } catch (error) {
             console.log(`Test ${index + 1}: Failed - ${error.message}`);

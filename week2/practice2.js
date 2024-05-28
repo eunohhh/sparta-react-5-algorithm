@@ -10,9 +10,15 @@
 // 출력: "olleh dlrow"
 
 function reverseEachWord(s) {
-    // 문제 풀이
-}
+    // 공백 단위로 잘라서 배열에 저장
+    const splitted = s.split(" ");
+    // 저장한 배열로 map 돌려서, 각 아이템 배열화해서 반전시킨뒤 다시 스트링으로(join)
+    const mapped = splitted.map((text) => [...text].reverse().join(""));
+    // map 의 결과를 공백으로 구분하여 조인
+    const joined = mapped.join(" ");
 
+    return joined;
+}
 
 function testReverseEachWord() {
     const testCases = [
@@ -20,13 +26,14 @@ function testReverseEachWord() {
         { input: "hello world", expected: "olleh dlrow" },
         { input: "a b c d", expected: "a b c d" },
         { input: "Palindrome", expected: "emordnilaP" },
-        { input: "I love coding", expected: "I evol gnidoc" }
+        { input: "I love coding", expected: "I evol gnidoc" },
     ];
 
-    testCases.forEach(({input, expected}, index) => {
+    testCases.forEach(({ input, expected }, index) => {
         try {
             const result = reverseEachWord(input);
-            if (result !== expected) throw new Error(`Expected ${expected}, but got ${result}`);
+            if (result !== expected)
+                throw new Error(`Expected ${expected}, but got ${result}`);
             console.log(`Test ${index + 1}: Passed`);
         } catch (error) {
             console.log(`Test ${index + 1}: Failed - ${error.message}`);
