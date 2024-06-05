@@ -20,34 +20,51 @@
 // closestSum([-1, 2, 1, -4], 1); // 0 (최대한 가까운 경우: -1 + 1 = 0)
 
 // 함수 구현:
-function closestSum(nums, target) {}
+function closestSum(nums, target) {
+    let result = null;
+    let i = 0;
+    while (i < nums.length - 1) {
+        let j = i + 1;
+        while (j < nums.length) {
+            const absNum = Math.abs(target - (nums[i] + nums[j]));
+            if (absNum !== 0) {
+                if (result === null || Math.abs(target - result) > absNum) {
+                    result = nums[i] + nums[j];
+                }
+            }
+            j++;
+        }
+        i++;
+    }
+    return result;
+}
 
 // 테스트 코드:
 function testClosestSum() {
-  const testCases = [
-    { nums: [1, 2, 3, 4, 5], target: 7, expected: 6 },
-    { nums: [-1, 2, 1, -4], target: 1, expected: 0 },
-    { nums: [10, 22, 11, 4, 5], target: 12, expected: 14 },
-    { nums: [0, 0, 0, 0, 0], target: 5, expected: 0 },
-    { nums: [3, 7, 8, 1], target: 100, expected: 15 },
-  ];
+    const testCases = [
+        { nums: [1, 2, 3, 4, 5], target: 7, expected: 6 },
+        { nums: [-1, 2, 1, -4], target: 1, expected: 0 },
+        { nums: [10, 22, 11, 4, 5], target: 12, expected: 14 },
+        { nums: [0, 0, 0, 0, 0], target: 5, expected: 0 },
+        { nums: [3, 7, 8, 1], target: 100, expected: 15 },
+    ];
 
-  testCases.forEach((testCase, index) => {
-    const { nums, target, expected } = testCase;
-    try {
-      const result = closestSum([...nums], target);
-      if (result !== expected) {
-        throw new Error(
-          `Test case ${
-            index + 1
-          } failed: Expected ${expected}, but got ${result}`
-        );
-      }
-      console.log(`Test case ${index + 1}: Passed`);
-    } catch (error) {
-      console.error(error.message);
-    }
-  });
+    testCases.forEach((testCase, index) => {
+        const { nums, target, expected } = testCase;
+        try {
+            const result = closestSum([...nums], target);
+            if (result !== expected) {
+                throw new Error(
+                    `Test case ${
+                        index + 1
+                    } failed: Expected ${expected}, but got ${result}`
+                );
+            }
+            console.log(`Test case ${index + 1}: Passed`);
+        } catch (error) {
+            console.error(error.message);
+        }
+    });
 }
 
 // 테스트 함수 호출     'node week3/practice2.js'
